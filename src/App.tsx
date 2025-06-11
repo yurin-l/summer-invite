@@ -184,8 +184,8 @@ const App: React.FC = () => {
                 <strong>{c.name}</strong>: {c.text}
               </div>
               <div className="comment-right">
-                <button onClick={() => handleLike(c.id)}>👍 {c.likes}</button>
-                <button onClick={() => handleDislike(c.id)}>👎 {c.dislikes}</button>
+                <button onClick={() => handleLike(c.id, c.likes)}>👍 {c.likes}</button>
+                <button onClick={() => handleDislike(c.id, c.dislikes)}>👎 {c.dislikes}</button>
                 <button onClick={() => handleDelete(c.id)}>❌</button>
               </div>
             </li>
