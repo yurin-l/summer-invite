@@ -2,15 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 const App: React.FC = () => {
-  const [image, setImage] = useState<string | null>(null);
   const attendees = ['유린', '의정 ', '소정', '다은', '규리'];
-
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
   };
 
 return (
