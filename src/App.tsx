@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { db } from './firebase';
+import { db, storage } from './firebase';
 import {
   collection,
   addDoc,
@@ -12,6 +12,14 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  deleteObject,
+} from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Comment {
   id: string;
@@ -23,10 +31,11 @@ interface Comment {
 }
 
 const App: React.FC = () => {
-  const attendees = ['유린', '의정', '소정', '다은', '규리'];
+  const attendees = ['유린👸🏻', '의정🐱', '소정🤩', '다은🐰', '규리🍺'];
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState('');
   const [inputText, setInputText] = useState('');
+  const [photos, setPhotos] = useState<string[]>([]);
 
   useEffect(() => {
     const q = query(collection(db, 'comments'), orderBy('timestamp', 'asc'));
@@ -38,6 +47,16 @@ const App: React.FC = () => {
       setComments(data);
     });
     return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const listRef = ref(storage, 'photos');
+      const res = await listAll(listRef);
+      const urls = await Promise.all(res.items.map((itemRef) => getDownloadURL(itemRef)));
+      setPhotos(urls);
+    };
+    fetchImages();
   }, []);
 
   const handleAddComment = async () => {
@@ -65,6 +84,23 @@ const App: React.FC = () => {
     await updateDoc(doc(db, 'comments', id), { dislikes: current + 1 });
   };
 
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const fileRef = ref(storage, `photos/${uuidv4()}`);
+    await uploadBytes(fileRef, file);
+    const url = await getDownloadURL(fileRef);
+    setPhotos((prev) => [...prev, url]);
+  };
+
+  const handleDeleteImage = async (url: string) => {
+    const decoded = decodeURIComponent(url);
+    const filePath = decoded.split('/o/')[1].split('?')[0];
+    const fileRef = ref(storage, filePath);
+    await deleteObject(fileRef);
+    setPhotos((prev) => prev.filter((u) => u !== url));
+  };
+
   return (
     <div className="app">
       <div className="card">
@@ -87,7 +123,7 @@ const App: React.FC = () => {
       </div>
 
       <div className="calendar-container">
-        <p className="meeting-text">📅 모임 날짜 <br />  2025년 6월 22일 (일요일) 1PM</p>
+        <p className="meeting-text">📅 모임 날짜<br />2025년 6월 22일 (일요일) 1PM</p>
         <div className="calendar">
           <div className="calendar-header">
             <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
@@ -119,7 +155,7 @@ const App: React.FC = () => {
         </ul>
         <a href="https://naver.me/G38n7AzN" target="_blank" className="link-button">🔗 가게 정보 보러가기</a>
       </div>
-{/* 의견 남기기 섹션 */}
+
       <div className="comment-section">
         <h2>🍧 밥먹고 뭐할까?</h2>
 
@@ -155,6 +191,20 @@ const App: React.FC = () => {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="photo-section">
+        <h2 className="section-title">📸 우리 사진</h2>
+        <input type="file" accept="image/*" onChange={handleUpload} />
+        <div className="photo-grid">
+          {photos.map((url) => (
+            <div key={url} className="photo-item">
+              <img src={url} alt="uploaded" />
+              <button onClick={() => handleDeleteImage(url)}>삭제</button>
+              <a href={url} download target="_blank" rel="noopener noreferrer">다운로드</a>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
