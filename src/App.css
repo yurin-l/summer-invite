@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+.app {
+  text-align: center;
+  padding: 2rem;
+}
+
+input[type="file"],
+input[type="text"] {
+  margin: 1rem;
+}
+
+.preview {
+  margin-top: 2rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 360px;
+  height: 500px;
+  background-image: url('https://i.pinimg.com/736x/fa/57/ff/fa57ff8f3c8b1364bcb00d0cb1d81b8e.jpg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0; /* top, right, bottom, left 모두 0 */
+  background-color: rgba(255, 255, 255, 0.4); 
+  /* 어두운 반투명 오버레이 */
+  z-index: 0;
+  border-radius: 16px;
+}
+
+.card > * {
+  position: relative;
+  z-index: 1;
+}
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: #f5e9d3;
+  text-align: center;
+  text-shadow: 0 0 4px rgba(0,0,0,0.3);
+  line-height: 1.2;
+}
+
+
+
+.bg {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.overlay-text {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 0px 0px 5px #000;
+}
+
+body {
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  background-color: #fef7f2;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+
+/* 애니메이션 */
+.attendee-section {
+  margin-top: 4rem;
+  padding: 2rem 1rem;
+  background: #fffdf7;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.attendee-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fade-item {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
