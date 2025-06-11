@@ -27,7 +27,17 @@
   align-items: center;
   overflow: hidden; /* 그라데이션이 넘치지 않게 */
 }
-
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%; /* 상단 40% 정도 흐리게 */
+  background: linear-gradient(to bottom, #ddefdd, rgba(221, 239, 221, 0));
+  z-index: 1;
+  pointer-events: none;
+}
 /* 하단 그라데이션 오버레이 */
 .card::after {
   content: '';
@@ -222,4 +232,93 @@ body {
   color: #d66b00;
   font-weight: 500;
   font-size: 0.95rem;
+}
+.comment-input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input-name {
+  width: 80px;
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.input-text {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.add-button {
+  padding: 0.45rem 0.8rem;
+  background-color: #ffb47e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #ffa563;
+}
+.comment-list button {
+  background: none;
+  border: none;
+  padding: 4px 6px;
+  margin-left: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.comment-list button:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+
+.comment-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 360px;
+}
+
+.comment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fffdf7;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.comment-left {
+  text-align: left;
+  flex: 1;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.comment-right {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.comment-right button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
