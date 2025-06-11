@@ -12,6 +12,7 @@
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "jsx": "react-jsx",  ← ✅ 이 줄 추가
 
     /* Linting */
     "strict": true,
